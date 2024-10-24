@@ -5,7 +5,7 @@ const projects = [
   {
     title: 'Fresh Bites',
     description: 'Proyecto sobre una tienda de comidas saludables. Tecnologías utilizadas: TS, React, Tailwind, ViteJS.',
-    image: '/img/freshbites.png',
+    image: '../img/freshbites.png',
     link: '',
     demo: ''
   },

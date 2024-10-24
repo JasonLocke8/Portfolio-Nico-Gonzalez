@@ -4,7 +4,7 @@ import { ArrowDown } from 'lucide-react';
 const Hero: React.FC = () => {
   return (
     <section className="relative h-screen flex items-center justify-center text-white overflow-hidden">
-      <img src="/img/sky.jpg" alt="Sky" className="absolute inset-0 w-full h-full object-cover" />
+      <img src="../img/sky.jpg" alt="Sky" className="absolute inset-0 w-full h-full object-cover" />
       <div className="absolute inset-0 bg-black opacity-50"></div>
       <div className="relative z-10 text-center">
       <h1 className="text-5xl md:text-7xl font-bold mb-4 animate-fade-in-down">Nico Gonzalez</h1>
