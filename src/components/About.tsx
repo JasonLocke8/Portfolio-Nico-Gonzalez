@@ -18,7 +18,7 @@ const About: React.FC = () => {
               Hola, mi nombre es <span className="font-semibold text-blue-600 dark:text-blue-400">Nicolás González</span>, un desarrollador web apasionado por crear experiencias digitales únicas y funcionales. Entre las tecnologías que manejo están HTML, CSS, JavaScript, C# y SQL. Disfruto trabajando en proyectos desafiantes que me permitan aprender y crecer profesionalmente.
             </p>
             <p className="text-lg leading-relaxed">
-              Cuando no estoy programando, me gusta jugar videojuegos, disfrutar de un recorrido en bicicleta o hacer algún deporte como Futbol. Siempre estoy buscando nuevas oportunidades para colaborar en proyectos interesantes y expandir mis habilidades.
+              Cuando no estoy programando, me gusta jugar videojuegos, disfrutar de un recorrido en bicicleta o hacer algún deporte como fútbol. Siempre estoy buscando nuevas oportunidades para colaborar en proyectos interesantes y expandir mis habilidades.
             </p>
           </div>
         </div>
