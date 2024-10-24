@@ -8,7 +8,7 @@ const About: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-8 md:mb-0 animate-on-scroll">
             <img
-              src="../img/profile.png"
+              src="/img/profile.png"
               alt="Nico Gonzalez"
               className="rounded-full w-64 h-64 object-cover mx-auto shadow-lg transform hover:scale-105 transition-transform duration-300"
             />
