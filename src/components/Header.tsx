@@ -19,22 +19,37 @@ const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
+  const handleScrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white dark:bg-gray-800 shadow-md' : 'bg-transparent'}`}>
+    <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white dark:bg-gray-800 shadow-md' : 'bg-white bg-opacity-80 dark:bg-gray-800 dark:bg-opacity-80'}`}>
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <h1 className={`text-2xl font-bold ${isScrolled ? 'text-gray-900 dark:text-white' : 'text-white'}`}>NG</h1>
+        <h1 className={`text-2xl font-bold ${isScrolled ? 'text-gray-900 dark:text-white' : 'text-gray-900 dark:text-white'}`}>NG</h1>
         <nav className="hidden md:block">
           <ul className="flex space-x-6">
             {['Inicio', 'Sobre mí', 'Proyectos', 'Contacto'].map((item) => (
               <li key={item}>
-                <a
-                  href={`#${item.toLowerCase().replace(' ', '-')}`}
+                <button
+                  onClick={() => handleScrollToSection(item.toLowerCase().replace(' ', '-'))}
                   className={`hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 ${
-                    isScrolled ? 'text-gray-900 dark:text-white' : 'text-white'
+                    isScrolled ? 'text-gray-900 dark:text-white' : 'text-gray-900 dark:text-white'
                   }`}
                 >
                   {item}
-                </a>
+                </button>
               </li>
             ))}
           </ul>
@@ -45,7 +60,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
             className={`p-2 rounded-full ${
               isScrolled
                 ? 'bg-gray-200 dark:bg-gray-700'
-                : 'bg-white bg-opacity-20'
+                : 'bg-gray-200 dark:bg-gray-700'
             }`}
           >
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
@@ -60,16 +75,20 @@ const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
       </div>
       {isMenuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-800 shadow-md">
-          <ul className="py-4">
+          <ul className="py-4 flex flex-col items-center">
             {['Inicio', 'Sobre mí', 'Proyectos', 'Contacto'].map((item) => (
               <li key={item}>
-                <a
-                  href={`#${item.toLowerCase().replace(' ', '-')}`}
-                  className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  onClick={() => setIsMenuOpen(false)}
+                <button
+                  onClick={() => {
+                    handleScrollToSection(item.toLowerCase().replace(' ', '-'));
+                    setIsMenuOpen(false); // Cierra el menú después de hacer clic
+                  }}
+                  className={`block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 ${
+                    isScrolled || darkMode ? 'text-gray-900 dark:text-white' : 'text-gray-900'
+                  }`}
                 >
                   {item}
-                </a>
+                </button>
               </li>
             ))}
           </ul>
