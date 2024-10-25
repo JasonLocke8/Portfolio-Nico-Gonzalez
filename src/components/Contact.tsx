@@ -7,7 +7,7 @@ const Contact: React.FC = () => {
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold mb-12 text-center animate-on-scroll">Contacto</h2>
         <div className="max-w-lg mx-auto animate-on-scroll">
-          <form className="space-y-6" name="contacto" method="POST" data-netlify="true">
+          <form className="space-y-6" data-netlify="true">
             <div>
               <label htmlFor="name" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
                 Nombre
