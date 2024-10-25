@@ -5,9 +5,18 @@ const Contact: React.FC = () => {
   return (
     <section id="contacto" className="py-20 bg-white dark:bg-gray-800">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold mb-12 text-center animate-on-scroll">Contacto</h2>
+        <h2 className="text-4xl font-bold mb-12 text-center animate-on-scroll text-gray-900 dark:text-white">
+          Contacto
+        </h2>
         <div className="max-w-lg mx-auto animate-on-scroll">
-          <form className="space-y-6" data-netlify="true">
+          <form
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            action="/thank-you"
+            className="space-y-6"
+          >
+            <input type="hidden" name="form-name" value="contact" />
             <div>
               <label htmlFor="name" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
                 Nombre
@@ -16,7 +25,7 @@ const Contact: React.FC = () => {
                 type="text"
                 id="name"
                 name="name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white transition-all duration-300"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-600 dark:text-gray-300 transition-all duration-300"
                 required
               />
             </div>
@@ -28,7 +37,7 @@ const Contact: React.FC = () => {
                 type="email"
                 id="email"
                 name="email"
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white transition-all duration-300"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-600 dark:text-gray-300 transition-all duration-300"
                 required
               />
             </div>
@@ -39,18 +48,19 @@ const Contact: React.FC = () => {
               <textarea
                 id="message"
                 name="message"
-                rows={4}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white transition-all duration-300"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-600 dark:border-gray-600 dark:text-gray-300 transition-all duration-300"
                 required
               ></textarea>
             </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-all duration-300 flex items-center justify-center transform hover:scale-105"
-            >
-              Enviar Mensaje
-              <Send size={20} className="ml-2" />
-            </button>
+            <div className="text-center">
+              <button
+                type="submit"
+                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-colors duration-300"
+              >
+                Enviar
+                <Send className="ml-2" />
+              </button>
+            </div>
           </form>
         </div>
       </div>
