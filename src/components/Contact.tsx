@@ -7,17 +7,7 @@ const Contact: React.FC = () => {
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold mb-12 text-center animate-on-scroll">Contacto</h2>
         <div className="max-w-lg mx-auto animate-on-scroll">
-          <form 
-            name="contact"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
-            className="space-y-6"
-          >
-            <input type="hidden" name="form-name" value="contact" />
-            <div hidden>
-              <input name="bot-field" />
-            </div>
+          <form className="space-y-6">
             <div>
               <label htmlFor="name" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
                 Nombre
