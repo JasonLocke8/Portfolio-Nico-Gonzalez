@@ -5,24 +5,38 @@ const Contact: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
+  const encode = (data: { [key: string]: string }) => {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&");
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     const form = e.target as HTMLFormElement;
-    const data = new FormData(form);
+    const formData = new FormData(form);
+    const data: { [key: string]: string } = {};
+    formData.forEach((value, key) => {
+      data[key] = value.toString();
+    });
 
     try {
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(data as any).toString(),
+        body: encode({
+          'form-name': 'contact',
+          ...data
+        })
       });
 
       if (response.ok) {
         setSubmitStatus('success');
         form.reset();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         setSubmitStatus('error');
       }
@@ -41,12 +55,12 @@ const Contact: React.FC = () => {
         </h2>
         <div className="max-w-lg mx-auto animate-on-scroll">
           {submitStatus === 'success' && (
-            <div className="mb-6 p-4 bg-green-100 text-green-700 rounded-md">
-              ¡Mensaje enviado con éxito! Gracias por contactarnos.
+            <div className="mb-6 p-4 bg-green-100 text-green-700 rounded-md text-center font-medium">
+              ¡Enviado! Gracias por tu mensaje.
             </div>
           )}
           {submitStatus === 'error' && (
-            <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-md">
+            <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-md text-center">
               Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.
             </div>
           )}
@@ -59,11 +73,11 @@ const Contact: React.FC = () => {
             className="space-y-6"
           >
             <input type="hidden" name="form-name" value="contact" />
-            <p className="hidden">
+            <div className="hidden">
               <label>
                 No llenar si eres humano: <input name="bot-field" />
               </label>
-            </p>
+            </div>
             <div>
               <label htmlFor="name" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
                 Nombre
