@@ -10,11 +10,11 @@ const projects = [
     demo: ''
   },
   {
-    title: 'Proyecto 2',
-    description: 'Proyecto 2. Tecnologías utilizadas: xD.',
-    image: '',
-    link: '',
-    demo: ''
+    title: 'Cercle Music',
+    description: 'Proyecto sobre un festival de música. Página realizada para ORT. Tecnologías utilizadas: HTML y CSS.',
+    image: 'https://imgur.com/P7LZ4Gc.png',
+    link: 'https://github.com/JasonLocke8/Cercle-Music-Festival---ORT.git',
+    demo: 'https://jasonlocke8.github.io/Cercle-Music-Festival---ORT/'
   },
   {
     title: 'Proyecto 3',
@@ -28,7 +28,7 @@ const projects = [
 const Projects: React.FC = () => {
   return (
     <section id="proyectos" className="py-20 bg-gray-100 dark:bg-gray-800">
-      <div className="container mx-auto px-4 my-12"> {}
+      <div className="container mx-auto px-4 my-12">
         <h2 className="text-4xl font-bold mb-12 text-center">Mis Proyectos</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
@@ -50,20 +50,20 @@ const Projects: React.FC = () => {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-500"
+                    className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
                   >
-                    Ver Proyecto
+                    <Github size={20} className="mr-1" />
+                    Código
                   </a>
-                  {project.demo && (
-                    <a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-500"
-                    >
-                      Ver Demo
-                    </a>
-                  )}
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-green-600 dark:text-green-400 hover:underline"
+                  >
+                    Demo
+                    <ExternalLink size={16} className="ml-1" />
+                  </a>
                 </div>
               </div>
             </div>
