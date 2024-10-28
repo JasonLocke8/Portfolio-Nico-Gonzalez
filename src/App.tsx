@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Sun, Moon, Github, Linkedin, Mail } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import {Github, Linkedin, Mail } from 'lucide-react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -30,7 +30,7 @@ function App() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Llamar una vez al inicio para elementos ya visibles
+    handleScroll(); 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
