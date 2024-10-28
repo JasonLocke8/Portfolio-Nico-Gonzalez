@@ -3,7 +3,7 @@ import React from 'react';
 const About: React.FC = () => {
   return (
     <section id="sobre-mí" className="py-20 bg-white dark:bg-gray-800">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 my-12">
         <h2 className="text-4xl font-bold mb-12 text-center animate-on-scroll">Sobre mí</h2>
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-8 md:mb-0 animate-on-scroll">
