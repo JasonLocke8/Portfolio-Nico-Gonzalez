@@ -15,14 +15,15 @@ const projects = [
     image: 'https://imgur.com/P7LZ4Gc.png',
     link: 'https://github.com/JasonLocke8/Cercle-Music-Festival---ORT.git',
     demo: 'https://jasonlocke8.github.io/Cercle-Music-Festival---ORT/'
-  },
-  {
-    title: 'Proyecto 3',
-    description: 'Proyecto 3. Tecnologías utilizadas: xD.',
-    image: '',
-    link: '',
-    demo: ''
   }
+  //,
+  // {
+  //   title: 'Proyecto 3',
+  //   description: 'Proyecto 3. Tecnologías utilizadas: xD.',
+  //   image: '',
+  //   link: '',
+  //   demo: ''
+  // }
 ];
 
 const Projects: React.FC = () => {
