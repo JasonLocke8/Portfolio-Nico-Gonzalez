@@ -19,7 +19,7 @@ const projects = [
   {
     title: 'JasonBot 2.0',
     description: 'Un bot de discord básico para uso informativo sobre estrategias de un juego. Tecnologías utilizadas: TypeScript y JS.',
-    image: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.youtube.com%2Fdiscord&psig=AOvVaw0USQ6DpzB3uBYRCPVHf-xC&ust=1732131837674000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLj924mU6YkDFQAAAAAdAAAAABAE',
+    image: 'https://i.ytimg.com/vi/7V5jdOjWVU4/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCCLmAxRosK3Ltbar9OdDhUHFuDug',
     link: 'https://github.com/JasonLocke8/JasonBot-2.0.git',
     demo: ''
   }
