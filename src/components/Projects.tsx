@@ -15,15 +15,14 @@ const projects = [
     image: 'https://imgur.com/P7LZ4Gc.png',
     link: 'https://github.com/JasonLocke8/Cercle-Music-Festival---ORT.git',
     demo: 'https://jasonlocke8.github.io/Cercle-Music-Festival---ORT/'
+  },
+  {
+    title: 'JasonBot 2.0',
+    description: 'Un bot de discord básico para uso informativo sobre estrategias de un juego. Tecnologías utilizadas: TypeScript y JS.',
+    image: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.youtube.com%2Fdiscord&psig=AOvVaw0USQ6DpzB3uBYRCPVHf-xC&ust=1732131837674000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLj924mU6YkDFQAAAAAdAAAAABAE',
+    link: 'https://github.com/JasonLocke8/JasonBot-2.0.git',
+    demo: ''
   }
-  //,
-  // {
-  //   title: 'Proyecto 3',
-  //   description: 'Proyecto 3. Tecnologías utilizadas: xD.',
-  //   image: '',
-  //   link: '',
-  //   demo: ''
-  // }
 ];
 
 const Projects: React.FC = () => {
