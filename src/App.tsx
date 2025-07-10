@@ -71,13 +71,21 @@ function App() {
       {/* Main */}
       <main className="flex-1 flex flex-col items-center justify-center relative z-10">
         <motion.h1
-          className="text-6xl md:text-7xl font-light text-white mb-12 text-center"
+          className="text-6xl md:text-7xl font-light text-white mb-4 text-center"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           Nicolás González
         </motion.h1>
+        <motion.h2
+          className="text-xl md:text-2xl font-light text-gray-300 mb-4 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.7 }}
+        >
+          Analista Programador
+        </motion.h2>
 
         {/* Social */}
         <motion.div
