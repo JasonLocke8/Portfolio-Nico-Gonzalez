@@ -1,5 +1,6 @@
 import { Github, Linkedin, Mail, Download, ScanFace } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { Logo } from './components/Logo'
 import { ParticlesBackground } from './components/ParticlesBackground'
 import { FloatingElements } from './components/FloatingElements'
@@ -46,7 +47,7 @@ function App() {
       <FloatingElements />
 
       {/* Header */}
-      <header className="absolute top-0 w-full p-6 flex justify-between items-center z-10">
+      <header className="absolute top-0 w-full p-6 flex justify-between items-center z-20">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -61,7 +62,13 @@ function App() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <ScanFace size={32} />
+          <Link
+            to="/login"
+            aria-label="Ir al login"
+            className="inline-flex p-2 rounded-lg text-gray-300 hover:text-white transition-colors duration-200"
+          >
+            <ScanFace size={32} />
+          </Link>
         </motion.div>
 
       </header>
@@ -161,7 +168,7 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="absolute bottom-0 right-0 p-6 z-10">
+      <footer className="absolute bottom-0 right-0 p-6 z-20">
         <motion.p
           className="text-gray-400 text-sm"
           initial={{ opacity: 0 }}
