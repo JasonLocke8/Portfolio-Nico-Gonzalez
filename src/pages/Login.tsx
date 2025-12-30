@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Logo } from '../components/Logo'
 import { ParticlesBackground } from '../components/ParticlesBackground'
 import { FloatingElements } from '../components/FloatingElements'
-import { supabase } from '../lib/supabaseClient'
+import { SUPABASE_CONFIG_ERROR, supabase } from '../lib/supabaseClient'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -26,10 +26,17 @@ export default function Login() {
   }, [])
 
   useEffect(() => {
+    if (!supabase) {
+      setError(SUPABASE_CONFIG_ERROR ?? 'Supabase no está configurado.')
+      return
+    }
+
     let isMounted = true
 
     async function checkSession() {
-      const { data } = await supabase.auth.getSession()
+      const client = supabase
+      if (!client) return
+      const { data } = await client.auth.getSession()
       if (!isMounted) return
       if (data.session) navigate('/dashboard', { replace: true })
     }
@@ -46,6 +53,12 @@ export default function Login() {
 
     setError(null)
 
+    const client = supabase
+    if (!client) {
+      setError(SUPABASE_CONFIG_ERROR ?? 'Supabase no está configurado.')
+      return
+    }
+
     if (remember) {
       localStorage.setItem('remember_login', 'true')
       localStorage.setItem('remember_login_username', username)
@@ -61,7 +74,7 @@ export default function Login() {
 
     setIsLoading(true)
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await client.auth.signInWithPassword({
         email: username.trim(),
         password,
       })
@@ -160,7 +173,7 @@ export default function Login() {
             <div className="flex gap-3 pt-2">
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || !supabase}
                 className="flex-1 rounded-lg border border-gray-700 text-gray-100 px-4 py-2 hover:border-gray-500 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {isLoading ? 'Ingresando…' : 'Login'}

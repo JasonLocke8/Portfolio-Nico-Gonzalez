@@ -1,4 +1,4 @@
-import { SUPABASE_ANON_KEY, SUPABASE_URL, supabase } from './supabaseClient'
+import { SUPABASE_ANON_KEY, SUPABASE_CONFIG_ERROR, SUPABASE_URL, supabase } from './supabaseClient'
 
 export type ProjectFotoUploadedPhoto = {
   id: string
@@ -55,6 +55,13 @@ export async function uploadToProjectFoto(
   caption: string,
   metadata: UploadMetadata = {},
 ): Promise<UploadResult> {
+  if (!supabase || !SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    return {
+      ok: false,
+      error: SUPABASE_CONFIG_ERROR ?? 'Supabase no está configurado.',
+    }
+  }
+
   if (!file) {
     return { ok: false, error: 'Falta el archivo.' }
   }

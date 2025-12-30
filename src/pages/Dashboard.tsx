@@ -6,7 +6,7 @@ import { CalendarDays, LocateFixed, LogOut, Home, Upload, LayoutDashboard, X } f
 import { Logo } from '../components/Logo'
 import { ParticlesBackground } from '../components/ParticlesBackground'
 import { FloatingElements } from '../components/FloatingElements'
-import { supabase } from '../lib/supabaseClient'
+import { SUPABASE_CONFIG_ERROR, supabase } from '../lib/supabaseClient'
 import { uploadToProjectFoto } from '../lib/uploadToProjectFoto'
 
 type AlbumOption = {
@@ -150,11 +150,19 @@ export function Dashboard() {
   const [isUploadSuccess, setIsUploadSuccess] = useState(false)
 
   useEffect(() => {
+    if (!supabase) {
+      setError(SUPABASE_CONFIG_ERROR ?? 'Supabase no está configurado.')
+      setIsLoading(false)
+      return
+    }
+
     let isMounted = true
 
     async function load() {
+      const client = supabase
+      if (!client) return
       try {
-        const { data, error } = await supabase.auth.getSession()
+        const { data, error } = await client.auth.getSession()
         if (error) throw error
         if (isMounted) setSession(data.session)
       } catch (e) {
@@ -192,10 +200,17 @@ export function Dashboard() {
     let isMounted = true
 
     async function loadAlbums() {
+      const client = supabase
+      if (!client) {
+        setAlbumsError(SUPABASE_CONFIG_ERROR ?? 'Supabase no está configurado.')
+        setAlbums([])
+        return
+      }
+
       setAreAlbumsLoading(true)
       setAlbumsError(null)
 
-      const { data, error } = await supabase.functions.invoke('proxy-list-albums', { method: 'GET' })
+      const { data, error } = await client.functions.invoke('proxy-list-albums', { method: 'GET' })
       if (!isMounted) return
 
       if (error) {
@@ -230,7 +245,12 @@ export function Dashboard() {
 
   const handleLogout = async () => {
     setError(null)
-    const { error } = await supabase.auth.signOut()
+    const client = supabase
+    if (!client) {
+      setError(SUPABASE_CONFIG_ERROR ?? 'Supabase no está configurado.')
+      return
+    }
+    const { error } = await client.auth.signOut()
     if (error) {
       setError(error.message)
       return
