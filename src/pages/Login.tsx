@@ -4,13 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import { Logo } from '../components/Logo'
 import { ParticlesBackground } from '../components/ParticlesBackground'
 import { FloatingElements } from '../components/FloatingElements'
+import { supabase } from '../lib/supabaseClient'
 
-export function Login() {
+export default function Login() {
   const navigate = useNavigate()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const savedRemember = localStorage.getItem('remember_login')
@@ -22,8 +25,26 @@ export function Login() {
     }
   }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    let isMounted = true
+
+    async function checkSession() {
+      const { data } = await supabase.auth.getSession()
+      if (!isMounted) return
+      if (data.session) navigate('/dashboard', { replace: true })
+    }
+
+    checkSession()
+
+    return () => {
+      isMounted = false
+    }
+  }, [navigate])
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    setError(null)
 
     if (remember) {
       localStorage.setItem('remember_login', 'true')
@@ -33,7 +54,30 @@ export function Login() {
       localStorage.removeItem('remember_login_username')
     }
 
-    // Login real: lo conectarás a tu lógica/backend cuando quieras.
+    if (!username.trim() || !password) {
+      setError('Completa usuario (email) y contraseña.')
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: username.trim(),
+        password,
+      })
+
+      if (error) throw error
+      if (!data.session) {
+        setError('No se pudo iniciar sesión.')
+        return
+      }
+
+      navigate('/dashboard', { replace: true })
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Error al iniciar sesión.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -58,6 +102,7 @@ export function Login() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
+
           <motion.h1
             className="text-3xl md:text-4xl font-light text-white mb-6 text-center"
             initial={{ opacity: 0, y: 10 }}
@@ -70,7 +115,7 @@ export function Login() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="username" className="block text-sm text-gray-300 mb-2">
-                Usuario
+                Usuario (email)
               </label>
               <input
                 id="username"
@@ -108,12 +153,17 @@ export function Login() {
               Recordar
             </label>
 
+            {error ? (
+              <p className="text-sm text-red-200">{error}</p>
+            ) : null}
+
             <div className="flex gap-3 pt-2">
               <button
                 type="submit"
-                className="flex-1 rounded-lg border border-gray-700 text-gray-100 px-4 py-2 hover:border-gray-500 transition-colors"
+                disabled={isLoading}
+                className="flex-1 rounded-lg border border-gray-700 text-gray-100 px-4 py-2 hover:border-gray-500 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Login
+                {isLoading ? 'Ingresando…' : 'Login'}
               </button>
               <button
                 type="button"

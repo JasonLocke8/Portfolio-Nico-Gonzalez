@@ -1,17 +1,22 @@
-import { StrictMode } from 'react'
+import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './index.css'
-import App from './App.tsx'
-import { Login } from './pages/Login'
+
+const App = lazy(() => import('./App.tsx'))
+const Login = lazy(() => import('./pages/Login.tsx'))
+const Dashboard = lazy(() => import('./pages/Dashboard.tsx'))
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
+      <Suspense fallback={<div className="min-h-screen bg-gray-900" />}>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   </StrictMode>,
 )

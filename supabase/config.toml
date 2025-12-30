@@ -1,0 +1,12 @@
+# Supabase local config (used also for Edge Functions settings)
+# Docs: https://supabase.com/docs/guides/functions
+
+[functions.proxy-upload-photo]
+# We validate the JWT inside the function, but we must allow browser CORS preflight (OPTIONS)
+# which otherwise can be blocked before reaching our handler.
+verify_jwt = false
+
+[functions.proxy-list-albums]
+# This function is protected by x-admin-secret to the upstream service.
+# Keep JWT verification disabled to allow anonymous browser calls.
+verify_jwt = false

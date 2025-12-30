@@ -4,7 +4,7 @@ export const FloatingElements = () => {
   const floatingElements = Array.from({ length: 6 }, (_, i) => i)
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
       {floatingElements.map((i) => (
         <motion.div
           key={i}
