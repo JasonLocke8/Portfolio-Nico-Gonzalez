@@ -31,7 +31,8 @@ export const ParticlesBackground = () => {
 
     const createStars = () => {
       const stars: Star[] = []
-      const starCount = 150
+      // Reducir cantidad de estrellas para mejorar performance
+      const starCount = window.innerWidth < 768 ? 60 : 100
 
       for (let i = 0; i < starCount; i++) {
         const brightness = Math.random()
@@ -39,13 +40,13 @@ export const ParticlesBackground = () => {
         stars.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 2 + 0.5,
-          opacity: Math.random() * 0.5 + 0.3,
-          baseOpacity: Math.random() * 0.5 + 0.3,
+          size: Math.random() * 1.5 + 0.3,
+          opacity: Math.random() * 0.4 + 0.3,
+          baseOpacity: Math.random() * 0.4 + 0.3,
           twinkleSpeed: Math.random() * 0.003 + 0.001,
           brightness: brightness,
-          vx: (Math.random() - 0.5) * 0.2,
-          vy: (Math.random() - 0.5) * 0.2
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: (Math.random() - 0.5) * 0.15
         })
       }
 
@@ -94,16 +95,6 @@ export const ParticlesBackground = () => {
         ctx.beginPath()
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2)
         ctx.fill()
-
-        // Añadir resplandor a estrellas brillantes
-        if (star.brightness > 0.7) {
-          ctx.shadowColor = color
-          ctx.shadowBlur = star.size * 2
-          ctx.beginPath()
-          ctx.arc(star.x, star.y, star.size * 0.5, 0, Math.PI * 2)
-          ctx.fill()
-          ctx.shadowBlur = 0
-        }
       })
     }
 

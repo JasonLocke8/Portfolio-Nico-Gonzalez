@@ -47,7 +47,7 @@ function App() {
   }
 
   return (
-    <div className="h-screen bg-gray-900 font-roboto relative overflow-y-auto snap-y snap-mandatory">
+    <div className="h-screen bg-gray-900 font-roboto relative overflow-y-auto snap-y snap-proximity">
       {/* Fondo de Estrellas */}
       <ParticlesBackground />
 
