@@ -132,7 +132,7 @@ export function Dashboard() {
   const [session, setSession] = useState<Session | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [activeMenu, setActiveMenu] = useState<'home' | 'upload'>('home')
+  const [activeMenu, setActiveMenu] = useState<'home' | 'upload' | 'create-album'>('home')
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
@@ -148,6 +148,12 @@ export function Dashboard() {
   const [isLocating, setIsLocating] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [isUploadSuccess, setIsUploadSuccess] = useState(false)
+
+  const [albumTitle, setAlbumTitle] = useState('')
+  const [albumSubtitle, setAlbumSubtitle] = useState('')
+  const [albumIsVisible, setAlbumIsVisible] = useState(true)
+  const [isCreatingAlbum, setIsCreatingAlbum] = useState(false)
+  const [isCreateAlbumSuccess, setIsCreateAlbumSuccess] = useState(false)
 
   useEffect(() => {
     if (!supabase) {
@@ -194,24 +200,19 @@ export function Dashboard() {
 
   const userEmail = useMemo(() => session?.user?.email ?? null, [session])
 
-  useEffect(() => {
-    if (!session) return
+  const loadAlbums = async () => {
+    const client = supabase
+    if (!client) {
+      setAlbumsError(SUPABASE_CONFIG_ERROR ?? 'Supabase no está configurado.')
+      setAlbums([])
+      return
+    }
 
-    let isMounted = true
+    setAreAlbumsLoading(true)
+    setAlbumsError(null)
 
-    async function loadAlbums() {
-      const client = supabase
-      if (!client) {
-        setAlbumsError(SUPABASE_CONFIG_ERROR ?? 'Supabase no está configurado.')
-        setAlbums([])
-        return
-      }
-
-      setAreAlbumsLoading(true)
-      setAlbumsError(null)
-
+    try {
       const { data, error } = await client.functions.invoke('proxy-list-albums', { method: 'GET' })
-      if (!isMounted) return
 
       if (error) {
         setAlbumsError(getInvokeErrorMessage(error))
@@ -232,15 +233,14 @@ export function Dashboard() {
         .filter((row) => row.slug.trim().length > 0)
 
       setAlbums(normalized)
+    } finally {
+      setAreAlbumsLoading(false)
     }
+  }
 
-    loadAlbums().finally(() => {
-      if (isMounted) setAreAlbumsLoading(false)
-    })
-
-    return () => {
-      isMounted = false
-    }
+  useEffect(() => {
+    if (!session) return
+    loadAlbums()
   }, [session])
 
   const handleLogout = async () => {
@@ -350,6 +350,58 @@ export function Dashboard() {
     }
   }
 
+  const handleCreateAlbum = async () => {
+    setError(null)
+    setIsCreateAlbumSuccess(false)
+
+    if (!albumTitle.trim()) {
+      setError('Completa el campo Título.')
+      return
+    }
+
+    if (!albumSubtitle.trim()) {
+      setError('Completa el campo Subtítulo.')
+      return
+    }
+
+    const slug = albumTitle.toLowerCase().replace(/\s+/g, '-')
+
+    const client = supabase
+    if (!client) {
+      setError(SUPABASE_CONFIG_ERROR ?? 'Supabase no está configurado.')
+      return
+    }
+
+    setIsCreatingAlbum(true)
+    try {
+      const { error } = await client.functions.invoke('proxy-create-album', {
+        method: 'POST',
+        body: {
+          title: albumTitle.trim(),
+          subtitle: albumSubtitle.trim(),
+          slug: slug,
+          is_visible: albumIsVisible,
+          cover_path: '',
+        },
+      })
+
+      if (error) {
+        setError(getInvokeErrorMessage(error))
+        return
+      }
+
+      setAlbumTitle('')
+      setAlbumSubtitle('')
+      setAlbumIsVisible(true)
+      setIsCreateAlbumSuccess(true)
+      
+      // Recargar la lista de álbumes
+      await loadAlbums()
+    } finally {
+      setIsCreatingAlbum(false)
+    }
+  }
+
   const menuButtonBase =
     'w-full flex items-center gap-3 rounded-lg border px-4 py-2 transition-colors text-left'
 
@@ -429,6 +481,19 @@ export function Dashboard() {
                     <Upload size={18} />
                     Subir imagen
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setActiveMenu('create-album')}
+                    className={
+                      activeMenu === 'create-album'
+                        ? `${menuButtonBase} border-gray-600 text-gray-100`
+                        : `${menuButtonBase} border-gray-800 text-gray-300 hover:border-gray-600 hover:text-gray-100`
+                    }
+                  >
+                    <LayoutDashboard size={18} />
+                    Crear álbum
+                  </button>
                 </div>
 
                 <div className="mt-6 flex flex-col gap-3">
@@ -466,7 +531,7 @@ export function Dashboard() {
 
                   {error ? <p className="mt-4 text-sm text-red-200">{error}</p> : null}
                 </>
-              ) : (
+              ) : activeMenu === 'upload' ? (
                 <>
                   <motion.h1
                     className="text-3xl md:text-4xl font-light text-white mb-2"
@@ -646,7 +711,92 @@ export function Dashboard() {
 
                   {error ? <p className="mt-4 text-sm text-red-200">{error}</p> : null}
                 </>
-              )}
+              ) : activeMenu === 'create-album' ? (
+                <>
+                  <motion.h1
+                    className="text-3xl md:text-4xl font-light text-white mb-2"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.35 }}
+                  >
+                    Crear álbum
+                  </motion.h1>
+
+                  <p className="text-gray-300 mb-5">
+                    Crea un nuevo álbum en Project Foto.
+                  </p>
+
+                  <div className="mb-4">
+                    <label className="block text-sm text-gray-300 mb-2" htmlFor="album_title">
+                      Título
+                    </label>
+                    <input
+                      id="album_title"
+                      value={albumTitle}
+                      onChange={(e) => setAlbumTitle(e.target.value)}
+                      placeholder="Título del álbum"
+                      className="w-full rounded-lg bg-gray-900 border border-gray-800 text-gray-100 px-4 py-2 outline-none focus:border-gray-600"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm text-gray-300 mb-2" htmlFor="album_subtitle">
+                      Subtítulo
+                    </label>
+                    <input
+                      id="album_subtitle"
+                      value={albumSubtitle}
+                      onChange={(e) => setAlbumSubtitle(e.target.value)}
+                      placeholder="Subtítulo del álbum"
+                      className="w-full rounded-lg bg-gray-900 border border-gray-800 text-gray-100 px-4 py-2 outline-none focus:border-gray-600"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={albumIsVisible}
+                        onChange={(e) => setAlbumIsVisible(e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-800 bg-gray-900 text-gray-100"
+                      />
+                      Álbum visible
+                    </label>
+                  </div>
+
+                  <div className="mt-4 flex gap-3">
+                    <button
+                      type="button"
+                      onClick={handleCreateAlbum}
+                      disabled={isCreatingAlbum}
+                      className="flex-1 rounded-lg border border-gray-700 text-gray-100 px-4 py-2 hover:border-gray-500 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {isCreatingAlbum ? 'Creando…' : 'Crear álbum'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAlbumTitle('')
+                        setAlbumSubtitle('')
+                        setAlbumIsVisible(true)
+                        setIsCreateAlbumSuccess(false)
+                        setError(null)
+                      }}
+                      className="flex-1 rounded-lg border border-gray-800 text-gray-300 px-4 py-2 hover:border-gray-600 hover:text-gray-100 transition-colors"
+                    >
+                      Limpiar
+                    </button>
+                  </div>
+
+                  {isCreateAlbumSuccess ? (
+                    <div className="mt-4 rounded-lg border border-gray-800 bg-gray-900/30 px-4 py-3">
+                      <p className="text-sm text-green-200">Álbum creado exitosamente!</p>
+                    </div>
+                  ) : null}
+
+                  {error ? <p className="mt-4 text-sm text-red-200">{error}</p> : null}
+                </>
+              ) : null}
               </div>
             </section>
           </div>

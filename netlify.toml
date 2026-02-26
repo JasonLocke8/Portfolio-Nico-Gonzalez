@@ -2,6 +2,9 @@
   command = "npm install && npm run build"
   publish = "dist"
 
+[build.environment]
+  NODE_VERSION = "22"
+
 [dev]
   command = "npm run dev"
   port = 8888
