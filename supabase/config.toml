@@ -10,3 +10,8 @@ verify_jwt = false
 # This function is protected by x-admin-secret to the upstream service.
 # Keep JWT verification disabled to allow anonymous browser calls.
 verify_jwt = false
+
+[functions.proxy-create-album]
+# This function is protected by x-admin-secret to the upstream service.
+# Keep JWT verification disabled to allow anonymous browser calls.
+verify_jwt = false
