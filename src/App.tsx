@@ -1,9 +1,10 @@
-import { Github, Linkedin, Mail, Download, ScanFace } from 'lucide-react'
+import { Github, Linkedin, Mail, Download, ScanFace, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Logo } from './components/Logo'
 import { ParticlesBackground } from './components/ParticlesBackground'
 import { FloatingElements } from './components/FloatingElements'
+import { Projects } from './components/Projects'
 
 function App() {
 
@@ -16,6 +17,13 @@ function App() {
     link.href = '/Nicolas_Gonzalez_CV.pdf'
     link.download = 'Nicolas_Gonzalez_CV.pdf'
     link.click()
+  }
+
+  const handleScrollToProjects = () => {
+    const projectsSection = document.getElementById('projects-section')
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
   }
 
   const containerVariants = {
@@ -39,7 +47,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 font-roboto relative flex flex-col overflow-hidden">
+    <div className="h-screen bg-gray-900 font-roboto relative overflow-y-auto snap-y snap-mandatory">
       {/* Fondo de Estrellas */}
       <ParticlesBackground />
 
@@ -47,7 +55,7 @@ function App() {
       <FloatingElements />
 
       {/* Header */}
-      <header className="absolute top-0 w-full p-6 flex justify-between items-center z-20">
+      <header className="fixed top-0 w-full p-6 flex justify-between items-center z-20">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -76,9 +84,9 @@ function App() {
 
 
       {/* Main */}
-      <main className="flex-1 flex flex-col items-center justify-center relative z-10">
+      <main className="min-h-screen flex flex-col items-center justify-center relative z-10 snap-start snap-always px-4">
         <motion.h1
-          className="text-6xl md:text-7xl font-light text-white mb-4 text-center"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white mb-4 text-center"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -86,7 +94,7 @@ function App() {
           Nicolás González
         </motion.h1>
         <motion.h2
-          className="text-xl md:text-2xl font-light text-gray-300 mb-4 text-center"
+          className="text-lg sm:text-xl md:text-2xl font-light text-gray-300 mb-8 text-center"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.7 }}
@@ -96,7 +104,7 @@ function App() {
 
         {/* Social */}
         <motion.div
-          className="flex space-x-8"
+          className="flex space-x-4 sm:space-x-6 md:space-x-8"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -105,7 +113,7 @@ function App() {
             href="https://github.com/JasonLocke8"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 text-gray-300 hover:text-white transition-colors duration-200"
+            className="p-2 sm:p-3 text-gray-300 hover:text-white transition-colors duration-200"
             aria-label="GitHub"
             variants={iconVariants}
             whileHover={{
@@ -115,14 +123,14 @@ function App() {
             }}
             whileTap={{ scale: 0.9 }}
           >
-            <Github size={32} />
+            <Github size={28} className="sm:w-8 sm:h-8" />
           </motion.a>
 
           <motion.a
             href="https://linkedin.com/in/nico-exe/"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 text-gray-300 hover:text-white transition-colors duration-200"
+            className="p-2 sm:p-3 text-gray-300 hover:text-white transition-colors duration-200"
             aria-label="LinkedIn"
             variants={iconVariants}
             whileHover={{
@@ -132,12 +140,12 @@ function App() {
             }}
             whileTap={{ scale: 0.9 }}
           >
-            <Linkedin size={32} />
+            <Linkedin size={28} className="sm:w-8 sm:h-8" />
           </motion.a>
 
           <motion.button
             onClick={handleEmailClick}
-            className="p-3 text-gray-300 hover:text-white transition-colors duration-200"
+            className="p-2 sm:p-3 text-gray-300 hover:text-white transition-colors duration-200"
             aria-label="Email"
             variants={iconVariants}
             whileHover={{
@@ -147,12 +155,12 @@ function App() {
             }}
             whileTap={{ scale: 0.9 }}
           >
-            <Mail size={32} />
+            <Mail size={28} className="sm:w-8 sm:h-8" />
           </motion.button>
 
           <motion.button
             onClick={handleCVDownload}
-            className="p-3 text-gray-300 hover:text-white transition-colors duration-200"
+            className="p-2 sm:p-3 text-gray-300 hover:text-white transition-colors duration-200"
             aria-label="Descargar CV"
             variants={iconVariants}
             whileHover={{
@@ -162,13 +170,30 @@ function App() {
             }}
             whileTap={{ scale: 0.9 }}
           >
-            <Download size={32} />
+            <Download size={28} className="sm:w-8 sm:h-8" />
           </motion.button>
+        </motion.div>
+
+        {/* Scroll Arrow */}
+        <motion.div
+          className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
+          animate={{ y: [0, 12, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          onClick={handleScrollToProjects}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <div className="bg-gray-800/40 backdrop-blur-sm rounded-full p-2 sm:p-3 border border-gray-700/30 hover:bg-gray-700/50 transition-colors">
+            <ChevronDown size={24} className="sm:w-7 sm:h-7 text-gray-300 opacity-60" />
+          </div>
         </motion.div>
       </main>
 
+      {/* Projects Section */}
+      <Projects />
+
       {/* Footer */}
-      <footer className="absolute bottom-0 right-0 p-6 z-20">
+      <footer className="w-full py-8 text-center border-t border-gray-800 z-10">
         <motion.p
           className="text-gray-400 text-sm"
           initial={{ opacity: 0 }}
