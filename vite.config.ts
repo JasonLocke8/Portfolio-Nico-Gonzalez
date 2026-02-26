@@ -5,18 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info'],
-      },
-      mangle: true,
-      format: {
-        comments: false,
-      },
-    },
+    minify: 'esbuild',
+    target: 'esnext',
     cssMinify: true,
     rollupOptions: {
       output: {
@@ -28,5 +18,8 @@ export default defineConfig({
         },
       },
     },
+  },
+  esbuild: {
+    drop: ['console', 'debugger'],
   },
 })
