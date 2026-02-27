@@ -8,6 +8,7 @@ import { ParticlesBackground } from '../components/ParticlesBackground'
 import { FloatingElements } from '../components/FloatingElements'
 import { SUPABASE_CONFIG_ERROR, supabase } from '../lib/supabaseClient'
 import { uploadToProjectFoto } from '../lib/uploadToProjectFoto'
+import { compressImage } from '../lib/imageCompression'
 
 type AlbumOption = {
   slug: string
@@ -148,6 +149,7 @@ export function Dashboard() {
   const [isLocating, setIsLocating] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [isUploadSuccess, setIsUploadSuccess] = useState(false)
+  const [isCompressing, setIsCompressing] = useState(false)
 
   const [albumTitle, setAlbumTitle] = useState('')
   const [albumSubtitle, setAlbumSubtitle] = useState('')
@@ -258,11 +260,30 @@ export function Dashboard() {
     navigate('/login', { replace: true })
   }
 
-  const handlePickFile: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handlePickFile: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
     const file = e.target.files?.[0] ?? null
-    setSelectedFileName(file ? file.name : null)
-    setSelectedFile(file)
+    
+    if (!file) {
+      setSelectedFileName(null)
+      setSelectedFile(null)
+      setIsUploadSuccess(false)
+      return
+    }
+
+    setSelectedFileName(file.name)
     setIsUploadSuccess(false)
+
+    // Comprimir imagen si es necesario
+    setIsCompressing(true)
+    try {
+      const compressedFile = await compressImage(file)
+      setSelectedFile(compressedFile)
+    } catch (err) {
+      console.error('Error al comprimir imagen:', err)
+      setSelectedFile(file) // Usar archivo original si falla la compresión
+    } finally {
+      setIsCompressing(false)
+    }
   }
 
   const clearSelectedFile = () => {
@@ -664,12 +685,17 @@ export function Dashboard() {
                   <div className="mt-4 rounded-lg border border-gray-800 bg-gray-900/30 px-4 py-3 flex items-center justify-between gap-3">
                     <p className="text-sm text-gray-300">
                       Archivo: <span className="text-gray-100">{selectedFileName ?? '---'}</span>
+                      {isCompressing && (
+                        <span className="ml-2 text-xs text-blue-400 animate-pulse">
+                          (Comprimiendo...)
+                        </span>
+                      )}
                     </p>
 
                     <button
                       type="button"
                       onClick={clearSelectedFile}
-                      disabled={!selectedFileName}
+                      disabled={!selectedFileName || isCompressing}
                       aria-label="Quitar archivo seleccionado"
                       className="inline-flex items-center justify-center rounded-md border border-gray-800 p-1 text-red-300 hover:text-red-200 hover:border-gray-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                     >
@@ -681,10 +707,10 @@ export function Dashboard() {
                     <button
                       type="button"
                       onClick={handleUpload}
-                      disabled={isUploading}
+                      disabled={isUploading || isCompressing}
                       className="flex-1 rounded-lg border border-gray-700 text-gray-100 px-4 py-2 hover:border-gray-500 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      {isUploading ? 'Subiendo…' : 'Subir'}
+                      {isUploading ? 'Subiendo…' : isCompressing ? 'Preparando…' : 'Subir'}
                     </button>
                     <button
                       type="button"
