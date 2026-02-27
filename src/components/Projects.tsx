@@ -8,6 +8,7 @@ interface Project {
   tags: string[]
   githubUrl: string
   deployedUrl?: string
+  discordInviteUrl?: string
   status: 'deployed' | 'coming-soon' | 'in-development'
 }
 
@@ -52,6 +53,7 @@ const PROJECTS: Project[] = [
     description: 'Bot de Discord multifuncional con comandos de ocio e información.',
     tags: ['Discord.js', 'Node.js', 'JavaScript', 'API'],
     githubUrl: 'https://github.com/JasonLocke8/JasonBot-2.0',
+    discordInviteUrl: 'https://discord.com/oauth2/authorize?client_id=925917704941109279',
     status: 'deployed'
   },
   {

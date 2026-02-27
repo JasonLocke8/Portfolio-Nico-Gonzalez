@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Github, ExternalLink } from 'lucide-react'
+import { Github, ExternalLink, MessageCircle } from 'lucide-react'
 
 interface ProjectCardProps {
   title: string
@@ -7,6 +7,7 @@ interface ProjectCardProps {
   tags: string[]
   githubUrl: string
   deployedUrl?: string
+  discordInviteUrl?: string
   status?: 'deployed' | 'coming-soon' | 'in-development'
 }
 
@@ -16,6 +17,7 @@ export function ProjectCard({
   tags,
   githubUrl,
   deployedUrl,
+  discordInviteUrl,
   status = 'deployed'
 }: ProjectCardProps) {
   const statusColors = {
@@ -93,6 +95,21 @@ export function ProjectCard({
             >
               <ExternalLink size={16} />
               <span>Ver en vivo</span>
+            </motion.a>
+          )}
+
+          {discordInviteUrl && (
+            <motion.a
+              href={discordInviteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-3 py-2 text-sm text-white bg-purple-600/50 rounded-md hover:bg-purple-600 transition-colors flex-1 justify-center"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label={`Invitar ${title} a Discord`}
+            >
+              <MessageCircle size={16} />
+              <span>Discord</span>
             </motion.a>
           )}
         </div>
