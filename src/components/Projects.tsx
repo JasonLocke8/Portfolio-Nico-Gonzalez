@@ -60,7 +60,8 @@ const PROJECTS: Project[] = [
     description: 'Sitio de e-commerce para compra de alimentos con catálogo dinámico y carrito de compras.',
     tags: ['HTML', 'CSS', 'JavaScript', 'E-commerce'],
     githubUrl: 'https://github.com/JasonLocke8/Fresh-Bites',
-    status: 'coming-soon'
+    deployedUrl: 'https://freshbites.nicolito.com',
+    status: 'deployed'
   }
 ]
 
