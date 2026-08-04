@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Github, ExternalLink, MessageCircle } from 'lucide-react'
+import { Github, ExternalLink, Plus } from 'lucide-react'
 
 interface ProjectCardProps {
   title: string
@@ -27,7 +27,7 @@ export function ProjectCard({
   }
 
   const statusLabels = {
-    deployed: 'Deployeado',
+    deployed: 'Deployed',
     'coming-soon': 'Próximamente',
     'in-development': 'En desarrollo'
   }
@@ -94,7 +94,7 @@ export function ProjectCard({
               aria-label={`Ver ${title} en vivo`}
             >
               <ExternalLink size={16} />
-              <span>Ver en vivo</span>
+              <span>Ir al sitio</span>
             </motion.a>
           )}
 
@@ -108,8 +108,8 @@ export function ProjectCard({
               whileTap={{ scale: 0.95 }}
               aria-label={`Invitar ${title} a Discord`}
             >
-              <MessageCircle size={16} />
-              <span>Discord</span>
+              <Plus size={16} />
+              <span>Invitar</span>
             </motion.a>
           )}
         </div>

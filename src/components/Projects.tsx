@@ -16,7 +16,7 @@ const PROJECTS: Project[] = [
   {
     id: 'project-foto',
     title: 'ProjectFoto',
-    description: 'Plataforma para gestionar y compartir mis álbumes de fotos con mi familia y amigos.',
+    description: 'Plataforma para gestionar y compartir mis álbumes de fotos con familia y amigos.',
     tags: ['React', 'Supabase', 'Tailwind CSS', 'TypeScript'],
     githubUrl: 'https://github.com/JasonLocke8/ProjectFoto',
     deployedUrl: 'https://fotos.nicolito.com',
@@ -26,7 +26,7 @@ const PROJECTS: Project[] = [
     id: 'spotify-player',
     title: 'Spotify Stream Player',
     description: 'Reproductor integrado de Spotify con controles avanzados y sincronización en tiempo real.',
-    tags: ['React', 'Spotify API', 'TypeScript', 'Tailwind CSS'],
+    tags: ['React', 'Spotify API', 'TypeScript', 'Tailwind'],
     githubUrl: 'https://github.com/JasonLocke8/SpotifyStreamPlayer',
     deployedUrl: 'https://player.nicolito.com',
     status: 'deployed'
@@ -34,17 +34,10 @@ const PROJECTS: Project[] = [
   {
     id: 'nostalgie-radio',
     title: 'Nostalgie Radio Show',
-    description: 'Aplicación de radio con interfaz moderna. En proceso de lanzamiento en Google Play Store.',
+    description: 'Aplicación de radio. Disponible en Google Play Store.',
     tags: ['React Native', 'Audio Streaming', 'Mobile'],
     githubUrl: 'https://github.com/JasonLocke8/Nostalgie-Radio-Show',
-    status: 'coming-soon'
-  },
-  {
-    id: 'obligatorio-p3',
-    title: 'Sistema de Gestión de Envíos',
-    description: 'Plataforma completa para la gestión, seguimiento y administración de envíos con reportes y estadísticas.',
-    tags: ['.NET', 'SQL Server', 'C#', 'MVC'],
-    githubUrl: 'https://github.com/JasonLocke8/ObligatorioP3',
+    deployedUrl: 'https://play.google.com/store/apps/details?id=nostalgieradioshow.app',
     status: 'deployed'
   },
   {
@@ -54,6 +47,14 @@ const PROJECTS: Project[] = [
     tags: ['Discord.js', 'Node.js', 'JavaScript', 'API'],
     githubUrl: 'https://github.com/JasonLocke8/JasonBot-2.0',
     discordInviteUrl: 'https://discord.com/oauth2/authorize?client_id=925917704941109279',
+    status: 'deployed'
+  },
+  {
+    id: 'obligatorio-p3',
+    title: 'Sistema de Gestión de Envíos',
+    description: 'Plataforma para la gestión, seguimiento y administración de envíos con reportes y estadísticas.',
+    tags: ['.NET', 'SQL Server', 'C#', 'MVC'],
+    githubUrl: 'https://github.com/JasonLocke8/ObligatorioP3',
     status: 'deployed'
   },
   {
@@ -103,7 +104,7 @@ export function Projects() {
             Proyectos
           </h2>
           <p className="text-gray-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4">
-            Una selección de mis proyectos personales y profesionales. Algunos están completamente deployeados, otros en desarrollo o próximos a lanzar.
+            Una selección de mis proyectos personales y profesionales. 
           </p>
         </motion.div>
 
